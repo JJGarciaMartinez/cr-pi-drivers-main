@@ -14,22 +14,25 @@ const cleanArray = (arr) =>
       nationality: elem.nationality,
       birthdate: elem.dob,
       teams: elem.teams,
+      code: elem.code,
       created: false,
     };
   });
 
-const createDriver = async ({
+const createDriver = async (
   name,
   lastname,
   description,
   image,
   nationality,
   birthdate,
-  teams,
-}) => {
+  teams
+) => {
+  // Si no tengo imagen me lo crea con un imagen por default.
   if (!image) {
     image = DEFAULT_IMAGE;
   }
+
   const newDriver = await Driver.create({
     name,
     lastname,
@@ -39,32 +42,36 @@ const createDriver = async ({
     birthdate,
   });
 
-  if (teams && teams.length > 0) {
-    for (const teamName of teams) {
+  if (typeof teams === "string" && teams.length > 0) {
+    const teamsNames = teams.split(",");
+
+    for (const teamName of teamsNames) {
       let team = await Team.findOne({ where: { name: teamName } });
       if (!team) {
+        // si no existe el team en la base de datos lo crea.
         team = await Team.create({ name: teamName });
       }
+      //Asocio el team al driver.
       await newDriver.addTeam(team);
     }
     return newDriver;
   }
 };
 
-const getById = async ({ id, source }) => {
+const getById = async (id, source) => {
   const driver =
     source === "api"
       ? (await axios.get(`http://localhost:5000/drivers/${id}`)).data
       : await Driver.findByPk(id, {
           include: {
             model: Team,
+            as: "teams",
             attributes: ["name"],
             through: {
               attributes: [],
             },
           },
         });
-
   if (source === "bdd") {
     return driver;
   } else {
@@ -83,9 +90,11 @@ const getById = async ({ id, source }) => {
 };
 
 const getAll = async () => {
+  // buscar en bdd
   const databaseDrivers = await Driver.findAll({
     include: {
       model: Team,
+      as: "teams",
       attributes: ["name"],
       through: {
         attributes: [],
@@ -93,10 +102,17 @@ const getAll = async () => {
     },
   });
 
+  // Agarro la propiedad teams de los drivers creados(vienen como un ARREGLO DE OBJETOS) y los transformo en un string.
+  const dbDrivers = databaseDrivers.map((driver) => {
+    const teams = driver.teams.map((team) => team.name).join(",");
+    return { ...driver.toJSON(), teams };
+  });
+
+  // buscar en api y limpiar
   const apiDriverRaw = (await axios.get("http://localhost:5000/drivers")).data;
   const apiDrivers = cleanArray(apiDriverRaw);
 
-  return [...databaseDrivers, ...apiDrivers];
+  return [...dbDrivers, ...apiDrivers];
 };
 
 const searchByName = async (name) => {

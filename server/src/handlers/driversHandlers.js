@@ -1,30 +1,28 @@
 const {
   createDriver,
-  getAllDrivers,
-  searchDriverByName,
-  getDriverById,
+  searchByName,
+  getAll,
+  getById,
 } = require("../controllers/driversCtrls.js");
 
 // Obtiene todos los conductores o busca por nombre si se proporciona uno.
 const getDriversHandler = async (req, res) => {
   const { name } = req.query;
   try {
-    const drivers = name
-      ? await searchDriverByName(name)
-      : await getAllDrivers();
-    res.status(200).json(drivers);
+    const drivers = name ? await searchByName(name) : await getAll();
+    return res.status(200).json(drivers);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
 // Obtiene un conductor por su id y muestra los detalles.
-const getDriverHandler = async (req, res) => {
+const getIdHandler = async (req, res) => {
   const { id } = req.params;
   const source = isNaN(id) ? "bdd" : "api";
   try {
-    const driver = await getDriverById(id, source);
-    res.status(200).json(driver);
+    const driverDetail = await getById(id, source);
+    res.status(200).json(driverDetail);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -42,16 +40,16 @@ const createDriverHandler = async (req, res) => {
       birthdate,
       teams,
     } = req.body;
-    const newDriver = await createDriver({
+    const newDriver = await createDriver(
       name,
       lastname,
       description,
       image,
       nationality,
       birthdate,
-      teams,
-    });
-    res.status(201).json({ message: "Se creó exitosamente el conductor" });
+      teams
+    );
+    res.status(201).json(newDriver);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -59,6 +57,6 @@ const createDriverHandler = async (req, res) => {
 
 module.exports = {
   getDriversHandler,
-  getDriverHandler,
+  getIdHandler,
   createDriverHandler,
 };

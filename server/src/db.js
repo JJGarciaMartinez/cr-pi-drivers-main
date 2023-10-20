@@ -39,8 +39,11 @@ const { Driver, Team } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Driver.belongsToMany(Team, { through: "drivers_teams" });
-Team.belongsToMany(Driver, { through: "drivers_teams" });
+Driver.belongsToMany(Team, {
+  through: "driver_teams",
+  as: "teams",
+});
+Team.belongsToMany(Driver, { through: "driver_teams" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
