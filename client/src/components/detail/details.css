@@ -1,0 +1,123 @@
+* {
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  animation-timing-function: ease;
+}
+@font-face {
+  font-family: "Formula1-Bold";
+  src: url("../../fonts/Formula1-Bold_web_0.ttf");
+}
+
+.detail {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 70rem;
+  height: 30rem;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  color: rgb(21, 21, 31);
+  box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.7);
+
+  & figure {
+    width: 450px;
+    height: 100%;
+    box-shadow: 7px 2px 15px -8px rgba(0, 0, 0, 0.75);
+    border-radius: 10px 0 0 10px;
+    z-index: 2;
+    overflow: hidden;
+
+    & img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+  & section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    padding-left: 2rem;
+
+    .name {
+      font-family: "Formula1-Bold";
+      font-weight: bold;
+      font-size: 3rem;
+      transition: 0.4s ease;
+    }
+
+    .teams {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-weight: normal;
+
+      .teams-title {
+        font-family: "Formula1-Bold";
+        font-weight: 500;
+        font-size: 1.5rem;
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 90%;
+      gap: 1rem;
+
+      .description-title {
+        font-family: "Formula1-Bold";
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+      .description-text {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 8rem;
+
+        &.show-shadow {
+          box-shadow: 0 11px 20px -22px rgba(0, 0, 0, 0.75) inset; /* Agrega la sombra cuando se hace scroll */
+        }
+      }
+    }
+  }
+  &:hover .name {
+    color: #ff1e00;
+  }
+}
+.description-text::-webkit-scrollbar {
+  width: 10px;
+  /* Ancho de la barra de desplazamiento */
+}
+
+.description-text::-webkit-scrollbar-track {
+  background: rgb(179, 179, 179);
+  border-radius: 5px;
+  /* Color del fondo de la barra de desplazamiento */
+}
+
+.description-text::-webkit-scrollbar-thumb {
+  background: #f0f0f0;
+  border: 2px solid rgb(179, 179, 179);
+  border-radius: 10px;
+  /* Color del thumb (agarre de la barra de desplazamiento) */
+}
+
+.description-text::-webkit-scrollbar-thumb:hover {
+  background: #e6e5e5;
+  /* Color del thumb al pasar el cursor por encima */
+}
