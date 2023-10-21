@@ -1,19 +1,16 @@
 import React from "react";
-import { House, SignOut, Plus } from "@phosphor-icons/react";
-import SearchBar from "./SearchBar";
-import { NavLink, useNavigate } from "react-router-dom";
+import { HouseSimple, SignOut, Plus } from "@phosphor-icons/react";
+import { NavLink } from "react-router-dom";
 import "./navBar.css";
 
-export default function Nav({ goBack }) {
-  const navigate = useNavigate();
-
+export default function Nav() {
   return (
     <>
       <div className="nav">
         <div className="links">
           <NavLink to="/home" className="link home-link">
             <span>
-              <House size={23} weight="fill" />
+              <HouseSimple size={23} />
               Home
             </span>
           </NavLink>

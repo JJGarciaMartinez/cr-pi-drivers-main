@@ -1,0 +1,24 @@
+* {
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  animation-timing-function: ease;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  color: rgb(21, 21, 31);
+  width: 20rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import background from "../../assets/formula1Logo.png";
+import { NavLink } from "react-router-dom";
 import {
   CaretRight,
   ArrowUp,
@@ -8,13 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import "./landing.css";
 
-export default function Landing({ goHome }) {
-  const navigate = useNavigate();
-
-  const handleGoHome = () => {
-    goHome();
-    navigate("/home");
-  };
+export default function Landing() {
   return (
     <div className="landing">
       <span className="start">
@@ -23,12 +17,12 @@ export default function Landing({ goHome }) {
           Formula 1 <TrademarkRegistered size={15} weight="bold" />
         </p>
       </span>
-      <button onClick={handleGoHome} className="button-home">
+      <NavLink to="/home" className="button-home">
         <span className="circle">
           <CaretRight size={45} weight="bold" className="arrow1" />
         </span>
         <span className="button-text">Go To Home</span>
-      </button>
+      </NavLink>
 
       <figure className="arrow-up">
         <ArrowUp size={50} weight="bold" />
